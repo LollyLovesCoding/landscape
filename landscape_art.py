@@ -19,9 +19,10 @@ frames = 0  # Counter variable
 daytime = True # Keeps track of day and night
 position1 = True # Makes objects appear move a little
 
-# Background sky
-sky_top_colour = pygame.Color(175, 255, 235)
-sky_bottom_colour = pygame.Color(130, 185, 245)
+# Star colours
+stars_r = 2
+star_colour_1 = "white"
+star_colour_2 = "#fcdf00"
 
 # Moving clouds
 cloud1_x = randrange(-500, 101)
@@ -39,8 +40,6 @@ cloud3_y = randrange(29, 113)
 cloud3_r = randrange(30, 37)
 cloud3_speed = randrange(2, 4)
 
-cloud_colours = (240, 246, 255)
-
 # Sun & birds :)
 sun_x = 300
 sun_y = 100
@@ -48,8 +47,8 @@ sun_colour = (255, 218, 69)
 birds_x = 168
 
 # Some landscape features
-grass_colour = pygame.Color(160, 200, 150)
 
+# River
 river_colour_r = 183
 river_colour_g = 203
 river_colour_b = 255
@@ -83,7 +82,7 @@ trees24_r = 15
 
 running = True
 while running:
-    
+
     # <-------------------- EVENT HANDLING ⁉️ ------------------------>
 
     # Used to catch mouse clicks
@@ -93,7 +92,7 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             print(event.pos)
 
-    # This block of code makes the birds, the river, and the trees look animated
+    # This block of code makes the stars, birds, and river look animated
     if frames <= 10: # This code runs while "frames" is less than or equal to '10'
         position1 = True
     elif frames <= 20: # If "frames" is instead greater than 10 but less than or equal to '20', "position1" will be set to 'False'
@@ -102,21 +101,24 @@ while running:
         frames = 0
 
     if daytime: # This block executes when it is daytime
-        sky_top_colour = pygame.Color(175, 255, 235)
-        sky_bottom_colour = pygame.Color(130, 185, 245)
+        cloud_colours = (255, 255, 255)
+        sun_colour = (255, 218, 69)
+        sky_bottom_colour = pygame.Color(175, 255, 235)
+        sky_top_colour = pygame.Color(130, 185, 245)
+        grass_colour = pygame.Color(198, 252, 126)
         river_colour_r += 0.5
         river_colour_g += 0.25
-        sun_colour = (255, 218, 69)
-        cloud_colours = (255, 255, 255)
+
     else: # This block executes when it is nighttime
-        sky_top_colour = pygame.Color(15, 50, 92)
-        sky_bottom_colour = pygame.Color(26, 15, 92)
-        river_colour_r -= 0.5
-        river_colour_g -= 0.25
         cloud_colours = (0, 0, 0)
         sun_colour = (224, 224, 224)
+        sky_top_colour = pygame.Color(15, 50, 92)
+        sky_bottom_colour = pygame.Color(26, 15, 92)
+        grass_colour = pygame.Color(160, 200, 150)
+        river_colour_r -= 0.5
+        river_colour_g -= 0.25
 
-    if daytime and sun_x >= 675: # This block checks to see if the Sun has reached the end of its daytime trajectory, and sets "daytime" to 'False' and resets the Sun's position
+    if daytime and sun_x >= 675: # This block checks to see if the Sun has reached the end of its daytime trajectory, and sets "daytime" to 'False' and changes the Sun's position
         daytime = False
         sun_x = -100
         sun_y = 200
@@ -209,6 +211,65 @@ while running:
     for n in range(0, HEIGHT // 2, rectangle_height):  # This is a loop that draws each rectangle gradient in the sky
         bg_colour = sky_top_colour.lerp(sky_bottom_colour, n / HEIGHT * 2)  # Here, I did an interpolation between the two RGB values of the sky in order to mix them and create a nice-looking gradient
         screen.fill(bg_colour, (0, n, WIDTH, rectangle_height))
+
+    # Stars - position 1 (only appear at nighttime)
+    if not daytime and position1:
+        pygame.draw.circle(screen, star_colour_1, (48, 47), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (48, 100), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (229, 99), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (165, 50), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (142, 158), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (357, 158), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (358, 59), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (519, 60), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (530, 138), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (453, 106), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (575, 58), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (580, 151), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (416, 25), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (303, 24), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (319, 172), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (604, 144), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (600, 56), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (101, 64), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (252, 54), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (309, 125), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (399, 65), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (299, 61), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (125, 86), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (337, 146), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (543, 147), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (22, 168), stars_r)
+
+    # Stars - position 2
+    if not daytime and not position1:
+        pygame.draw.circle(screen, star_colour_1, (119, 147), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (115, 118), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (125, 30), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (66, 19), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (70, 148), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (236, 156), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (437, 123), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (472, 175), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (568, 112), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (417, 96), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (450, 28), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (509, 25), stars_r)
+        pygame.draw.circle(screen, star_colour_1, (589, 26), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (600, 171), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (343, 54), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (235, 25), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (303, 96), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (418, 27), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (342, 166), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (252, 159), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (280, 95), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (217, 18), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (436, 157), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (105, 23), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (473, 14), stars_r)
+        pygame.draw.circle(screen, star_colour_2, (582, 102), stars_r)
+
 
     # Clouds BEHIND the Sun 🌤️
     # Cloud 1
